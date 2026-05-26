@@ -36,7 +36,6 @@ create table fotosproduto
     fotativo boolean default 1,
     constraint fkfotproid foreign key (fotproid) references produtos (proid)
 );
-
 insert into categorias (catnome) values
 ('Acessórios para Veículos'),
 ('Agro'),
@@ -70,28 +69,6 @@ insert into categorias (catnome) values
 ('Saúde'),
 ('Serviços'),
 ('Mais Categorias');
-
-select 
-    proid,
-    pronome,
-    prodescricao,
-    provalorcusto,
-    provalorvenda,
-    proquantidade,
-    prosubid,
-    proativo,
-    subnome,
-    subcatid,
-    subativo,
-    catnome,
-    catativo
-from 
-    produtos,subcategorias,categorias
-where 
-    prosubid = subid
-and
-    subcatid = catid
-
 insert into subcategorias
 	(subnome,subcatid)
 values 
@@ -121,4 +98,11 @@ values
     ('imgprodutos/f-1.webp','',1),
     ('imgprodutos/g-1.webp','',1),
     ('imgprodutos/h-1.webp','',1),
-    ('imgprodutos/i-1.webp','',1);
+    ('imgprodutos/i-1.webp','',1),
+    ('imgprodutos/a-2.webp','',2),
+    ('imgprodutos/b-2.webp','',2),
+    ('imgprodutos/c-2.webp','',2),
+    ('imgprodutos/d-2.webp','',2),
+    ('imgprodutos/e-2.webp','',2),
+    ('imgprodutos/f-2.webp','',2),
+    ('imgprodutos/g-2.webp','',2);
