@@ -1,15 +1,8 @@
 <?php
-/*Dentro do Delphi alt+F11 - codigo uses umodulo*/
-//require './controle/conexao.php';/*passa a usar a classe conexão*/
-/*isso é como a query do Delphi ou Lazarus*/
-//$pdo = Conexao::conectar();/*conecto ao banco de dados*/
-//$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);/*tratar erros de atributos e sql*/
-$sql = "select * from categorias;";/*é igual a propriedade SQL da query do Delphi ou Lazarus*/
-$prp = $pdo->prepare($sql);
-$prp->execute();/*executa a instrução sql que acessará a tabela do banco de dados (Delphi ou Lazarus Open ou ExecSQL)*/
-/*while ($data = $prp->fetch(PDO::FETCH_ASSOC)) {
-    echo $data['catnome'] . '<br>';
-}*/
+
+$sql = "select * from categorias;";/*propriedade sql da query do Delphi / Lazarus*/
+$prp = $pdo->prepare($sql);/*seria o principio lógico de preparação para o execsql ou open da query no Delphi / Lazarus*/
+$prp->execute();/*execsql ou open da query no Delphi / Lazarus*/
 ?>
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
@@ -34,8 +27,10 @@ $prp->execute();/*executa a instrução sql que acessará a tabela do banco de d
                         Categorias
                     </a>
                     <ul class="dropdown-menu">
-                        <?php while ($data = $prp->fetch(PDO::FETCH_ASSOC)) { ?>
-                            <li><a class="dropdown-item" href="listarprodutos.php?op=cat&id=<?php echo $data['catid']; ?>"><?php echo $data['catnome']; ?></a></li>
+                        <?php while ($data = $prp->fetch(PDO::FETCH_ASSOC)) { /*$data é igual ao datasource do Delphi / Lazarus*/ ?>
+                            <li><a class="dropdown-item" href="listarprodutos.php?op=cat&id=<?php echo $data['catid']; ?>">
+                                    <?php echo $data['catnome']; ?>
+                                </a></li>
                         <?php } ?>
                     </ul>
                 </li>

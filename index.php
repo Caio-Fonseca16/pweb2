@@ -1,9 +1,17 @@
 <?php
+/*
+mesma coisa que o uses do Delphi ou Lazarus (ALT+F11)
+*/
 require './controle/conexao.php';
+/*
+FDQuery do Delphi ou ZQuery do Lazarus
+Conectamos a Query
+*/
 $pdo = Conexao::conectar();
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-$sql =
-  "select 
+$sqlpro =
+  "
+select 
     proid,
     pronome,
     prodescricao,
@@ -11,25 +19,30 @@ $sql =
     provalorvenda,
     proquantidade,
     prosubid,
-    proativo,
     subnome,
     subcatid,
-    subativo,
     catnome,
-    catativo,
-    fotcaminho
-from 
-    produtos,subcategorias,categorias,fotosproduto
-where 
+    fotcaminho,
+    proativo
+from
+    produtos,
+    subcategorias,
+    categorias,
+    fotosproduto
+where
     prosubid = subid
 and
     subcatid = catid
 and 
     fotproid = proid
 and
-    fotprincipal = 1";
-$prpproduto = $pdo->prepare($sql);
-$prpproduto->execute();
+    fotprincipal = 1
+";
+$prppro = $pdo->prepare($sqlpro);
+$prppro->execute();
+/*while($dspro = $prppro->fetch(PDO::FETCH_ASSOC)){
+  echo $dspro['pronome'].'<br>';
+}*/
 ?>
 <!doctype html>
 <html lang="pt-BR">
@@ -37,40 +50,36 @@ $prpproduto->execute();
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link
-    rel="stylesheet"
-    href="node_modules/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="shortcut icon" href="./midias/favicon.png" type="image/x-icon">
   <title>O Lojinha</title>
+  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css" />
 </head>
 
 <body>
   <header>
-    <?php require('menu.php'); ?>
+    <?php require('menu.php'); //unit uses unit
+    ?>
   </header>
-  <main>
-    <div class="container-fluid">
-      <div class="form-group mt-3">
-        <input type="text" name="busca" id="busca" class="form-control" />
-      </div>
-      <div class="row mt-2">
-        <?php while ($dsproduto = $prpproduto->fetch(PDO::FETCH_ASSOC)) { ?>
-          <div class="col mt-2">
-            <div class="card" style="width: 18rem">
-              <img src="<?php echo $dsproduto['fotcaminho']; ?>" class="card-img-top img-fluid" alt="..." />
-              <div class="card-body">
-                <h5 class="card-title"><?php echo mb_strimwidth($dsproduto['pronome'], 0, 70, "..."); ?></h5>
-                <p class="card-text">
-                  <?php echo mb_strimwidth($dsproduto['prodescricao'], 0, 150, "..."); ?>
-                <p class="text-danger"><b>R$ <?php echo $dsproduto['provalorvenda']; ?></b></p>
-                </p>
-                <a href="detalhesproduto.php?id=<?php echo $dsproduto['proid']; ?>" class="btn btn-outline-dark">Mostrar Produto</a>
-              </div>
+  <main class="container">
+    <?php require('carousel.php'); ?>
+    <div class="row">
+      <?php while ($dspro = $prppro->fetch(PDO::FETCH_ASSOC)) { ?>
+        <div class="col-sm-3 mt-2">
+          <div class="card" style="width: 18rem;">
+            <img src="<?php echo $dspro['fotcaminho']; ?>" class="card-img-top" style="height: 16rem;" alt="...">
+            <div class="card-body">
+              <h5 class="card-title"><?php echo mb_strimwidth($dspro['pronome'], 0, 60, "..."); ?></h5>
+              <p class="card-text"><?php echo mb_strimwidth($dspro['prodescricao'], 0, 130, "..."); ?></p>
+              <p class="text-danger">Valor:<b>R$ <?php echo $dspro['provalorvenda']; ?></b></p>
+              <p class="text-primary">Estoque: <?php echo $dspro['proquantidade']; ?></p>
+              <a href="#" class="btn btn-primary">Ver Produto</a>
             </div>
           </div>
-        <?php } ?>
-      </div>
+        </div>
+      <?php } ?>
     </div>
   </main>
+
   <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
